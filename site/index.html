@@ -97,15 +97,30 @@
   <!-- ============ HERO — video at the top (Feedback 2 & 4) ============ -->
   <section class="hero">
     <div class="hero__media">
-      <!-- Drop the client's clinic video at assets/hero.mp4 (from the Drive link). -->
+      <!-- Drop the client's clinic video at assets/hero.mp4 (from the Drive link)
+           and the still at assets/hero-poster.jpg — then delete .hero__ph below. -->
       <video autoplay muted loop playsinline poster="assets/hero-poster.jpg">
         <source src="assets/hero.mp4" type="video/mp4">
       </video>
+    </div>
+
+    <!-- Marks the landing-page video slot until the real file arrives -->
+    <div class="hero__ph">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+      <span class="ph__label">Landing Page Video</span>
+      <span class="ph__name">The clinic video goes here — full-width background behind this text</span>
+      <span class="ph__size">1920 × 1080 · MP4</span>
     </div>
     <div class="wrap hero__inner">
       <p class="eyebrow">Chattogram's First Luxury Aesthetic Clinic</p>
       <h1>Look your best.<br>Feel your best.</h1>
       <p class="hero__lede">Dermatology, aesthetic medicine, cosmetic surgery, dental care and nutrition — delivered by some of the country's most trusted specialists, under one roof.</p>
+      <div class="hero__checks">
+        <span class="hero__check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>Certified Specialists</span>
+        <span class="hero__check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>Sterile &amp; Safe</span>
+        <span class="hero__check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>Personalised Plans</span>
+        <span class="hero__check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>No-Pressure Consults</span>
+      </div>
       <div class="hero__cta">
         <a class="btn btn--light" href="booking.html">Book an Appointment</a>
         <a class="btn btn--ghost" href="services.html" style="color:#fff;border-color:rgba(255,255,255,.5)">Explore Services</a>
@@ -122,9 +137,15 @@
   <section class="brands">
     <div class="wrap">
       <span class="brands__label">Trusted technology &amp; products</span>
-      <div class="brands__list">
-        <span>CeraVe</span><span>Candela</span><span>Botox</span>
-        <span>Eucerin</span><span>Kose</span><span>Hyfac</span>
+      <!-- Continuous marquee: the list is duplicated so the loop is seamless.
+           The second copy is aria-hidden so it isn't announced twice. -->
+      <div class="brands__viewport">
+        <div class="brands__track">
+          <span>CeraVe</span><span>Candela</span><span>Botox</span>
+          <span>Eucerin</span><span>Kose</span><span>Hyfac</span>
+          <span aria-hidden="true">CeraVe</span><span aria-hidden="true">Candela</span><span aria-hidden="true">Botox</span>
+          <span aria-hidden="true">Eucerin</span><span aria-hidden="true">Kose</span><span aria-hidden="true">Hyfac</span>
+        </div>
       </div>
     </div>
   </section>
@@ -145,7 +166,14 @@
   <!-- ============ ABOUT PREVIEW ============ -->
   <section class="section">
     <div class="wrap about-split">
-      <div class="about-figure reveal"><span>Mito Skin Lab</span></div>
+      <div class="about-figure reveal">
+        <div class="ph">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+          <span class="ph__label">About Us Photo</span>
+          <span class="ph__name">Clinic interior or the team — shown beside the "About Mito Skin Lab" text</span>
+          <span class="ph__size">800 × 920</span>
+        </div>
+      </div>
       <div class="reveal">
         <p class="eyebrow">About Mito Skin Lab</p>
         <h2>Excellence, innovation and patient-centred care</h2>
@@ -201,6 +229,7 @@
           <div class="booking__step"><b>3</b><div><h4>We call to confirm</h4><p>We check the slot and confirm by phone or WhatsApp.</p></div></div>
           <div class="booking__step"><b>4</b><div><h4>Visit the clinic</h4><p>Arrive ten minutes early for your consultation.</p></div></div>
         </div>
+        <div class="hours-list" data-hours-table></div>
       </div>
 
       <div class="form-card">
@@ -246,22 +275,22 @@
       </div>
       <div class="prod-grid">
         <article class="prod-card reveal">
-          <a class="prod-card__media" href="product.html?id=kose-whitening"><span class="prod-card__tag">Best seller</span><div class="prod-card__ph">Kose</div></a>
+          <a class="prod-card__media" href="product.html?id=kose-whitening"><span class="prod-card__tag">Best seller</span><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg><span class="ph__label">Product Photo 1</span><span class="ph__name">Kose Kokutousel Premium Whitening Lotion</span><span class="ph__size">800 × 900</span></div></a>
           <p class="prod-card__brand">Kose</p><h4><a href="product.html?id=kose-whitening">Kose Kokutousel Premium Whitening Lotion</a></h4>
           <div class="prod-card__price">৳6,000</div>
         </article>
         <article class="prod-card reveal">
-          <a class="prod-card__media" href="product.html?id=cerave-cream"><div class="prod-card__ph">CeraVe</div></a>
+          <a class="prod-card__media" href="product.html?id=cerave-cream"><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg><span class="ph__label">Product Photo 2</span><span class="ph__name">CeraVe Moisturising Cream</span><span class="ph__size">800 × 900</span></div></a>
           <p class="prod-card__brand">CeraVe</p><h4><a href="product.html?id=cerave-cream">CeraVe Moisturising Cream</a></h4>
           <div class="prod-card__price">৳3,000</div>
         </article>
         <article class="prod-card reveal">
-          <a class="prod-card__media" href="product.html?id=hra-spf"><span class="prod-card__tag">Sale</span><div class="prod-card__ph">HRA</div></a>
+          <a class="prod-card__media" href="product.html?id=hra-spf"><span class="prod-card__tag">Sale</span><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg><span class="ph__label">Product Photo 3</span><span class="ph__name">HRA SPF 50+++ Sunscreen</span><span class="ph__size">800 × 900</span></div></a>
           <p class="prod-card__brand">HRA</p><h4><a href="product.html?id=hra-spf">HRA SPF 50+++ Sunscreen</a></h4>
           <div class="prod-card__price"><s>৳4,500</s>৳3,700</div>
         </article>
         <article class="prod-card reveal">
-          <a class="prod-card__media" href="product.html?id=turu-vitc"><span class="prod-card__tag">Best seller</span><div class="prod-card__ph">Turu</div></a>
+          <a class="prod-card__media" href="product.html?id=turu-vitc"><span class="prod-card__tag">Best seller</span><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg><span class="ph__label">Product Photo 4</span><span class="ph__name">Turu Brightening Vitamin C Spot Serum</span><span class="ph__size">800 × 900</span></div></a>
           <p class="prod-card__brand">Turu</p><h4><a href="product.html?id=turu-vitc">Turu Brightening Vitamin C Spot Serum</a></h4>
           <div class="prod-card__price">৳5,500</div>
         </article>

@@ -27,7 +27,8 @@ about.html      About Us + Founder's Note
 booking.html    Full booking form
 build.js        Generates the 6 inner pages from one header/footer
 css/mito.css    Palette, type, all components
-js/data.js      Doctors, departments, services, products, reviews  <- edit content here
+js/data.js      Doctors, departments, services, products, treatment prices,
+                working hours, reviews  <- edit content here
 js/mito.js      Nav, tabs, filters, booking form, rendering
 ```
 
@@ -101,6 +102,19 @@ All site content lives in **`js/data.js`**. Change text there, not in the HTML.
 4. **Real WhatsApp number, phone and full branch address** → the `CLINIC` object at the bottom of `js/data.js` has `XXXX` placeholders
 5. **The 8–12 real reviews** from the Drive link → replace `REVIEWS` in `js/data.js`
 6. **Google Maps embed** → currently points at "Chattogram"; needs the exact pin
+7. **Gaps in the two pricing sheets** (nothing was invented to fill these — the rows are simply not on the site):
+
+   *Price List sheet (treatments):*
+   - Rows 58–63 have prices (৳8,900 · ৳14,900 · ৳14,900 · ৳12,900 · ৳20,900 · ৳20,900) but **no treatment name** — they sit under Mesotherapy. What are they?
+   - `LHR Full Body (Except Face & Scalp)` and `Scar (Face) by CO2 Laser` have **no price**.
+   - Course-of-3/4/6/8 columns are empty for almost every treatment. Only Melanoclear, Global Eyecon and the Glutathione boosters have course pricing, so only those show it.
+
+   *Skin Products sheet:*
+   - **No price:** Loreal Purple Reviving Oil, Loreal Purple Reviving Shampoo, Eucerin 50+ Sun Gel Cream, The Remedist Body Lotion, Japanese 4-in-1 Eye Cream, "The Body Shop" (brand only — which product?).
+   - **Out of stock (0):** The Remedist Folilstem Scalp Serum, The Remedist Niacinamide Sunscreen 50++++.
+   - **Two conflicting HRA SPF50+++ rows:** ৳3,700 (stock 19) and ৳4,500 (stock 1). The site currently shows this as a sale (৳4,500 → ৳3,700). If they're actually different sizes, that "Sale" tag is wrong — see `hra-spf` in `js/data.js`.
+   - **Unreadable name:** `HRA hlaner roeisy gbim` (৳3,075, stock 4) — omitted until it's confirmed.
+   - **Missing brand:** "Vitamin C + Glutathione Cream" and "Baby Oil" are listed under brand `Other`.
 
 ## Open questions
 

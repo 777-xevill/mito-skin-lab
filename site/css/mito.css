@@ -251,8 +251,13 @@ p  { margin: 0 0 1.1em; }
 .hero__inner { position: relative; z-index: 2; color: #fff; max-width: 720px; padding-block: clamp(70px, 12vw, 120px); }
 .hero h1 { color: #fff; margin-bottom: 1.3rem; }
 .hero .eyebrow { color: var(--tea-rose); }
-.hero__lede { color: rgba(255,255,255,.84); font-size: 1.08rem; max-width: 52ch; margin-bottom: 2.2rem; }
+.hero__lede { color: rgba(255,255,255,.84); font-size: 1.08rem; max-width: 52ch; margin-bottom: 1.6rem; }
 .hero__cta { display: flex; flex-wrap: wrap; gap: .8rem; }
+
+/* Benefit checklist under the hero lede (Dr. Leigh hero reference) */
+.hero__checks { display: grid; grid-template-columns: repeat(2, auto); gap: .6rem 2.4rem; margin-bottom: 2.2rem; }
+.hero__check { display: flex; align-items: center; gap: .55rem; font-size: .86rem; color: rgba(255,255,255,.92); }
+.hero__check svg { width: 16px; height: 16px; color: var(--tea-rose); flex: none; }
 .hero__badge {
   position: absolute; right: var(--gutter); bottom: clamp(28px, 5vw, 56px); z-index: 2;
   display: flex; gap: 2.2rem; padding: 1.4rem 2rem;
@@ -266,33 +271,61 @@ p  { margin: 0 0 1.1em; }
 .brands { border-block: 1px solid var(--hairline); background: var(--chantilly); }
 .brands .wrap { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; padding-block: 2.2rem; }
 .brands__label { font-size: .68rem; letter-spacing: .24em; text-transform: uppercase; color: var(--ink-soft); }
-.brands__list { display: flex; align-items: center; gap: clamp(1.6rem, 4vw, 3.6rem); flex-wrap: wrap; }
-.brands__list span {
+/* Continuous marquee. The track holds two identical copies and slides by
+   exactly -50%, so the seam is invisible. Spacing lives on each item
+   (margin-right) rather than flex `gap` — with `gap` the two copies would
+   not be exactly half the track and the loop would visibly jump. */
+.brands__viewport {
+  flex: 1; min-width: 0; overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+}
+.brands__track {
+  display: flex; align-items: center; width: max-content;
+  animation: brand-marquee 30s linear infinite;
+}
+.brands__viewport:hover .brands__track { animation-play-state: paused; }
+.brands__track span {
+  margin-right: clamp(1.6rem, 4vw, 3.6rem);
   font-family: var(--font-display); font-size: clamp(1.05rem, 2vw, 1.5rem);
-  letter-spacing: .12em; color: var(--antique-rose);
+  letter-spacing: .12em; color: var(--antique-rose); white-space: nowrap;
   transition: color .35s var(--ease);
 }
-.brands__list span:hover { color: var(--dusty-mauve); }
+.brands__track span:hover { color: var(--dusty-mauve); }
+@keyframes brand-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
 
 /* ==========================================================================
    DEPARTMENTS — high on the page (Feedback 2)
+   Numbered photo card (Sirpi services-grid reference): big number
+   overlapping the bottom of the image, label + copy below.
    ========================================================================== */
 .dept-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.4rem; }
 .dept-card {
   position: relative; display: block;
-  padding: 2.4rem 1.8rem 2.1rem;
   background: var(--chantilly);
   border: 1px solid var(--hairline);
   border-radius: var(--radius-card);
-  transition: transform .4s var(--ease), box-shadow .4s var(--ease), background .4s var(--ease);
+  overflow: hidden;
+  transition: transform .4s var(--ease), box-shadow .4s var(--ease);
 }
-.dept-card:hover { transform: translateY(-6px); box-shadow: 0 26px 54px rgba(36,29,27,.11); background: #fff; }
+.dept-card:hover { transform: translateY(-6px); box-shadow: 0 26px 54px rgba(36,29,27,.11); }
+.dept-card__photo {
+  position: relative; aspect-ratio: 4/3; overflow: hidden;
+  background: linear-gradient(150deg, var(--powder-blush), var(--tea-rose));
+}
+.dept-card__photo img { width: 100%; height: 100%; object-fit: cover; }
 .dept-card__num {
-  font-family: var(--font-display); font-size: .82rem;
-  color: var(--antique-rose); letter-spacing: .2em; display: block; margin-bottom: 1.1rem;
+  position: absolute; left: .9rem; bottom: .4rem; z-index: 1;
+  font-family: var(--font-display); font-size: 3.6rem; line-height: 1;
+  color: rgba(255,255,255,.92);
+  text-shadow: 0 8px 20px rgba(36,29,27,.22);
 }
-.dept-card h3 { margin-bottom: .7rem; }
-.dept-card p { font-size: .9rem; color: var(--ink-soft); margin-bottom: 1.2rem; }
+.dept-card__body { padding: 1.7rem 1.7rem 1.9rem; }
+.dept-card h3 { margin-bottom: .7rem; font-size: 1.16rem; }
+.dept-card p { font-size: .88rem; color: var(--ink-soft); margin-bottom: 1.1rem; }
 .dept-card__link { font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: var(--dusty-mauve); }
 .dept-card__link::after { content: ' →'; }
 
@@ -402,6 +435,20 @@ select.select {
 .filter-opt:hover { color: var(--dusty-mauve); }
 .filters__close { display: none; }
 
+/* ---------- treatment price list (Price List sheet) ---------- */
+.shop-switch { justify-content: center; margin-bottom: 2.6rem; }
+.tx-cats { justify-content: flex-start; margin-bottom: 2.2rem; }
+.tx-cats .tab { font-size: .71rem; padding: .55rem 1.2rem; }
+.tx-cats .tab[aria-selected="true"] { background: var(--dusty-mauve); border-color: var(--dusty-mauve); color: #fff; }
+.tx-group { margin-bottom: 2.8rem; }
+.tx-group__head { font-family: var(--font-display); font-size: 1.28rem; padding-bottom: .8rem; border-bottom: 1px solid var(--antique-rose); margin-bottom: .3rem; }
+.tx-row { display: flex; align-items: baseline; gap: .9rem; padding: .9rem 0; border-bottom: 1px solid var(--hairline); }
+.tx-row__name { flex: none; max-width: 58%; }
+.tx-row__name span { display: block; font-size: .76rem; color: var(--ink-soft); line-height: 1.5; margin-top: .15rem; }
+.tx-row__leader { flex: 1; border-bottom: 1px dotted var(--hairline); transform: translateY(-.3em); }
+.tx-row__price { flex: none; font-weight: 500; color: var(--dusty-mauve); white-space: nowrap; }
+.tx-row__book { flex: none; align-self: center; }
+
 .prod-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(228px, 1fr)); gap: 1.4rem; }
 .prod-card { display: flex; flex-direction: column; }
 .prod-card__media {
@@ -432,10 +479,10 @@ select.select {
 /* ---------- product detail ---------- */
 .pdp { display: grid; grid-template-columns: 1.05fr 1fr; gap: clamp(2rem, 5vw, 4.6rem); align-items: start; }
 .pdp__gallery { display: grid; gap: .8rem; }
-.pdp__main { aspect-ratio: 1/1.05; background: var(--vintage-lace); border-radius: var(--radius-card); display: grid; place-items: center; overflow: hidden; }
+.pdp__main { position: relative; aspect-ratio: 1/1.05; background: var(--vintage-lace); border-radius: var(--radius-card); display: grid; place-items: center; overflow: hidden; }
 .pdp__main .prod-card__ph { font-size: 2.2rem; }
 .pdp__thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: .8rem; }
-.pdp__thumbs div { aspect-ratio: 1; background: var(--powder-blush); border-radius: 3px; border: 1px solid transparent; cursor: pointer; transition: border-color .3s var(--ease); }
+.pdp__thumbs div { position: relative; aspect-ratio: 1; background: var(--powder-blush); border-radius: 3px; border: 1px solid transparent; cursor: pointer; overflow: hidden; transition: border-color .3s var(--ease); }
 .pdp__thumbs div:hover, .pdp__thumbs div[aria-current="true"] { border-color: var(--dusty-mauve); }
 .pdp__price { font-family: var(--font-display); font-size: 1.9rem; color: var(--dusty-mauve); margin: .4rem 0 1.2rem; }
 .pdp__price s { font-size: 1.1rem; color: var(--ink-soft); opacity: .55; margin-right: .6rem; }
@@ -446,12 +493,17 @@ select.select {
 .qty input { width: 46px; height: 48px; border: 0; text-align: center; font: inherit; background: none; outline: none; -moz-appearance: textfield; }
 .qty input::-webkit-outer-spin-button, .qty input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
-/* Feedback 2 #10 — clean, well-spaced Description / How to apply */
-.pdp__panels { margin-top: clamp(2.6rem, 5vw, 4.2rem); display: grid; gap: 1px; background: var(--hairline); border: 1px solid var(--hairline); border-radius: var(--radius-card); overflow: hidden; }
+/* Feedback 2 #10 — clean, well-spaced Description / How to apply.
+   Tabbed (Dr. Leigh product-page reference) instead of stacked — reuses
+   the generic .tabs/.tab/.panel component and wireTabs(). */
+.pdp__tabs { margin-top: clamp(2.6rem, 5vw, 4.2rem); justify-content: flex-start; }
+.pdp__panels { border: 1px solid var(--hairline); border-radius: var(--radius-card); overflow: hidden; }
 .pdp__panel { background: var(--chantilly); padding: clamp(1.8rem, 3.4vw, 3rem); }
 .pdp__panel h3 { margin-bottom: 1.1rem; }
 .pdp__panel ol { margin: 0; padding-left: 1.2rem; color: var(--ink-soft); }
 .pdp__panel ol li { margin-bottom: .7rem; padding-left: .4rem; }
+.pdp__rating { display: flex; align-items: center; gap: .6rem; margin: .2rem 0 1rem; font-size: .84rem; color: var(--ink-soft); }
+.pdp__rating .stars { color: var(--oat-silk); letter-spacing: .16em; font-size: .95rem; }
 .pdp__meta { display: grid; gap: .55rem; padding-top: 1.4rem; border-top: 1px solid var(--hairline); font-size: .86rem; color: var(--ink-soft); }
 .pdp__meta div { display: flex; gap: .7rem; }
 .pdp__meta b { font-weight: 500; color: var(--ink); min-width: 96px; }
@@ -471,6 +523,16 @@ select.select {
 }
 .booking__step h4 { color: #fff; font-size: 1rem; margin-bottom: .2rem; }
 .booking__step p { font-size: .88rem; color: rgba(252,249,246,.6); margin: 0; }
+
+/* Working Hours (Sirpi appointment-page reference: uppercase day, dotted
+   leader, time — reusing the CLINIC.hours schedule, not new hours) */
+.hours-list { margin-top: 2.4rem; padding-top: 1.8rem; border-top: 1px solid rgba(252,249,246,.14); }
+.hours-list h4 { color: #fff; font-size: .76rem; letter-spacing: .22em; text-transform: uppercase; font-family: var(--font-body); font-weight: 600; margin-bottom: 1.1rem; }
+.hours-row { display: flex; align-items: baseline; gap: .6rem; padding: .42rem 0; font-size: .84rem; }
+.hours-row b { flex: none; font-family: var(--font-body); font-weight: 500; letter-spacing: .14em; text-transform: uppercase; font-size: .72rem; color: var(--tea-rose); }
+.hours-row .leader { flex: 1; border-bottom: 1px dotted rgba(252,249,246,.26); transform: translateY(-.3em); }
+.hours-row span:last-child { flex: none; color: rgba(252,249,246,.78); }
+.hours-row[data-closed] span:last-child { color: var(--antique-rose); }
 
 .form-card { background: var(--chantilly); color: var(--ink); padding: clamp(1.8rem, 3.6vw, 3rem); border-radius: var(--radius-card); }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
@@ -515,7 +577,7 @@ select.select {
    ABOUT
    ========================================================================== */
 .about-split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4.6rem); align-items: center; }
-.about-figure { aspect-ratio: 4/4.6; border-radius: var(--radius-card); overflow: hidden; background: linear-gradient(150deg, var(--powder-blush), var(--tea-rose)); display: grid; place-items: center; }
+.about-figure { position: relative; aspect-ratio: 4/4.6; border-radius: var(--radius-card); overflow: hidden; background: linear-gradient(150deg, var(--powder-blush), var(--tea-rose)); display: grid; place-items: center; }
 .about-figure img { width: 100%; height: 100%; object-fit: cover; }
 .about-figure span { font-family: var(--font-display); font-size: 1.2rem; color: rgba(255,255,255,.85); letter-spacing: .18em; text-transform: uppercase; }
 .founder { max-width: 780px; margin-inline: auto; }
@@ -616,7 +678,16 @@ select.select {
   .prod-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
   .prod-card h4 { font-size: .92rem; }
   .hero__cta .btn { width: 100%; }
+  .hero__checks { grid-template-columns: 1fr; }
+  /* label on its own line so the marquee gets the full width */
+  .brands .wrap { flex-direction: column; align-items: flex-start; gap: 1.1rem; }
+  .brands__viewport { width: 100%; }
   .svc-item__book { display: none; }
+  /* Name on its own line, then leader · price · Book — the booking CTA stays
+     visible on mobile, which is the primary device for this site. */
+  .tx-row { flex-wrap: wrap; gap: .45rem .7rem; }
+  .tx-row__name { max-width: none; flex: 1 0 100%; }
+  .tx-row__book { padding: .5rem 1.1rem; font-size: .66rem; }
   .tabs { justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; padding-bottom: .5rem; scrollbar-width: none; }
   .tabs::-webkit-scrollbar { display: none; }
   .tab { white-space: nowrap; }
@@ -624,6 +695,60 @@ select.select {
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+  /* The rule above would spin an infinite marquee at .01ms per loop — kill the
+     animation outright and let the strip sit still instead. */
+  .brands__track { animation: none; }
+}
+
+/* ==========================================================================
+   IMAGE PLACEHOLDERS
+   Every picture slot on the site is marked with a dashed, striped box that
+   names the slot, the item it belongs to, and the size to supply — so the
+   client can see exactly which photo goes where.
+   When a real image arrives, replace the .ph element with an <img>.
+   ========================================================================== */
+.ph {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: .35rem; padding: 1rem; text-align: center;
+  background: repeating-linear-gradient(45deg,
+              var(--vintage-lace) 0 11px, var(--powder-blush) 11px 22px);
+  border: 1px dashed var(--dusty-mauve);
+  color: var(--dusty-mauve);
+}
+.ph svg { width: 24px; height: 24px; opacity: .7; margin-bottom: .1rem; }
+.ph__label { font-size: .61rem; letter-spacing: .2em; text-transform: uppercase; font-weight: 600; }
+.ph__name  { font-size: .76rem; line-height: 1.4; color: var(--ink-soft); max-width: 92%; }
+.ph__size  { font-size: .6rem; letter-spacing: .12em; color: var(--antique-rose); }
+
+/* compact variant for small boxes (gallery thumbnails) */
+.ph--sm { gap: .15rem; padding: .4rem; }
+.ph--sm svg { width: 15px; height: 15px; margin: 0; }
+.ph--sm .ph__label { font-size: .52rem; letter-spacing: .1em; }
+
+/* hero: sits over the video area so the landing-page slot is obvious */
+.hero__ph {
+  position: absolute; right: var(--gutter); top: 24%; z-index: 2;
+  width: min(330px, 32vw); aspect-ratio: 4/3;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: .4rem; padding: 1.2rem; text-align: center;
+  border: 2px dashed rgba(255,255,255,.65); border-radius: var(--radius-card);
+  background: rgba(20,16,16,.42); color: #fff;
+}
+.hero__ph svg { width: 28px; height: 28px; opacity: .85; }
+.hero__ph .ph__name { color: rgba(255,255,255,.82); }
+.hero__ph .ph__size { color: var(--tea-rose); }
+
+/* logo slots — discreet so the header still reads as designed */
+.brand__mark { border: 1px dashed var(--dusty-mauve); }
+.footer .brand__mark { border-color: rgba(252,249,246,.5); }
+
+@media (max-width: 900px) {
+  .hero__ph {
+    position: static; transform: none;
+    width: auto; aspect-ratio: auto; margin: 1.6rem var(--gutter) 0;
+    padding: 1rem;
+  }
 }
 
 /* ---------- reveal on scroll ---------- */
