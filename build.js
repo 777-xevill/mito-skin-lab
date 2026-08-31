@@ -193,6 +193,7 @@ const BOOKING_SECTION = `
           <div class="booking__step"><b>3</b><div><h4>We call to confirm</h4><p>We check the slot and confirm by phone or WhatsApp.</p></div></div>
           <div class="booking__step"><b>4</b><div><h4>Visit the clinic</h4><p>Arrive ten minutes early for your consultation.</p></div></div>
         </div>
+        <div class="hours-list" data-hours-table></div>
       </div>
       <div class="form-card">
         <form id="bookingForm" novalidate>
@@ -253,6 +254,8 @@ ${BOOKING_SECTION}`
         <hr class="rule">
         <p class="lede">Select a department to see its treatments grouped into tabs — so you find what you need without scrolling through everything.</p>
       </div>
+      <!-- Treatments-we-provide intro grid (Sirpi services reference) -->
+      <div class="dept-grid" id="deptGrid" style="margin-bottom:clamp(2.6rem,5vw,4rem)"></div>
       <!-- Department tabs; each opens nested category tabs (Feedback 4) -->
       <div class="tabs" id="deptTabs" data-tabs="dept" role="tablist"></div>
       <div id="deptPanels"></div>
@@ -269,6 +272,14 @@ ${BOOKING_SECTION}`
   body: `${pagehead('Shop', 'Shop')}
   <section class="section">
     <div class="wrap">
+
+      <!-- Products / Treatment prices switch -->
+      <div class="tabs shop-switch" data-tabs="shop" role="tablist">
+        <button class="tab" role="tab" data-tab="products" aria-selected="true">Products</button>
+        <button class="tab" role="tab" data-tab="treatments" aria-selected="false">Treatment Prices</button>
+      </div>
+
+      <div class="panel" data-panel-for="shop" data-panel="products">
       <div class="shop-layout">
 
         <!-- Left filter column. Feedback 4: hidden on mobile, opened by a button. -->
@@ -324,6 +335,23 @@ ${BOOKING_SECTION}`
         </div>
 
       </div>
+      </div>
+
+      <!-- Treatment price list (client's Price List sheet).
+           Treatments route to booking, not the cart — they need a consultation. -->
+      <div class="panel" data-panel-for="shop" data-panel="treatments" hidden>
+        <div class="shop-toolbar">
+          <span class="shop-toolbar__count" id="txCount"></span>
+          <label class="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input type="search" id="txSearch" placeholder="Search treatments" aria-label="Search treatments">
+          </label>
+        </div>
+        <div class="tabs tx-cats" id="txCats" role="tablist"></div>
+        <div id="txList"></div>
+        <p class="form-note">Prices are per single session unless a note says otherwise. Treatments are booked after a consultation, and your consultant confirms the final plan and price.</p>
+      </div>
+
     </div>
   </section>`
 },
@@ -338,8 +366,8 @@ ${BOOKING_SECTION}`
     <div class="wrap">
       <div class="pdp">
         <div class="pdp__gallery">
-          <div class="pdp__main"><div class="prod-card__ph" id="pdpPh">Brand</div></div>
-          <div class="pdp__thumbs">
+          <div class="pdp__main" id="pdpPh"></div>
+          <div class="pdp__thumbs" id="pdpThumbs">
             <div aria-current="true"></div><div></div><div></div><div></div>
           </div>
         </div>
@@ -347,6 +375,7 @@ ${BOOKING_SECTION}`
         <div>
           <p class="prod-card__brand" id="pdpBrand">Brand</p>
           <h1 style="font-size:clamp(1.8rem,3.4vw,2.7rem)" id="pdpName">Product name</h1>
+          <div class="pdp__rating"><span class="stars">★★★★★</span><span>Dermatologist-selected</span></div>
           <div class="pdp__price" id="pdpPrice">৳0</div>
           <p class="lede" style="font-size:.98rem">A dermatologist-selected formula stocked and recommended by our clinic. Suitable for daily use as part of a routine prescribed by your consultant.</p>
 
@@ -357,10 +386,12 @@ ${BOOKING_SECTION}`
               <button type="button" id="qtyUp" aria-label="Increase quantity">+</button>
             </div>
             <button class="btn" id="pdpAdd">Add to Cart</button>
+            <button class="btn btn--ghost" id="pdpBuy">Buy Now</button>
           </div>
           <div class="form-ok" id="pdpAdded" hidden>Added to your cart.</div>
 
           <div class="pdp__meta">
+            <div><b>SKU</b><span id="pdpSku">—</span></div>
             <div><b>Category</b><span id="pdpCat">—</span></div>
             <div><b>Availability</b><span>In stock</span></div>
             <div><b>Delivery</b><span>Inside Chattogram 1–2 days · nationwide 2–4 days</span></div>
@@ -369,14 +400,19 @@ ${BOOKING_SECTION}`
         </div>
       </div>
 
-      <!-- Feedback 2 #10: clean, well-spaced Description / How to apply -->
+      <!-- Feedback 2 #10: clean, well-spaced Description / How to apply.
+           Tabbed (Dr. Leigh product-page reference) via the generic tab component. -->
+      <div class="tabs pdp__tabs" data-tabs="pdp" role="tablist">
+        <button class="tab" role="tab" data-tab="desc" aria-selected="true">Description</button>
+        <button class="tab" role="tab" data-tab="apply" aria-selected="false">How to Apply</button>
+      </div>
       <div class="pdp__panels">
-        <div class="pdp__panel">
+        <div class="panel pdp__panel" data-panel-for="pdp" data-panel="desc">
           <h3>Description</h3>
           <p>Formulated to support the skin barrier while treating your primary concern, this product is selected by our dermatology team and stocked because it performs in clinic as well as it does at home.</p>
           <p>It layers cleanly under sunscreen and makeup, absorbs without residue, and is suitable for sensitive skin when introduced gradually. Every product we sell is sourced through authorised channels — no counterfeits, no grey imports.</p>
         </div>
-        <div class="pdp__panel">
+        <div class="panel pdp__panel" data-panel-for="pdp" data-panel="apply" hidden>
           <h3>How to Apply</h3>
           <ol>
             <li>Cleanse with lukewarm water and pat the skin dry — do not rub.</li>
@@ -405,7 +441,14 @@ ${BOOKING_SECTION}`
 
   <section class="section">
     <div class="wrap about-split">
-      <div class="about-figure reveal"><span>Mito Skin Lab</span></div>
+      <div class="about-figure reveal">
+        <div class="ph">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+          <span class="ph__label">About Us Photo</span>
+          <span class="ph__name">Clinic interior or the team — shown beside the About Us text</span>
+          <span class="ph__size">800 × 920</span>
+        </div>
+      </div>
       <div class="reveal">
         <p class="eyebrow">About Us</p>
         <h2>Because you deserve nothing but the very best</h2>

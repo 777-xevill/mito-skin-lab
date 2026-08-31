@@ -97,8 +97,8 @@
     <div class="wrap">
       <div class="pdp">
         <div class="pdp__gallery">
-          <div class="pdp__main"><div class="prod-card__ph" id="pdpPh">Brand</div></div>
-          <div class="pdp__thumbs">
+          <div class="pdp__main" id="pdpPh"></div>
+          <div class="pdp__thumbs" id="pdpThumbs">
             <div aria-current="true"></div><div></div><div></div><div></div>
           </div>
         </div>
@@ -106,6 +106,7 @@
         <div>
           <p class="prod-card__brand" id="pdpBrand">Brand</p>
           <h1 style="font-size:clamp(1.8rem,3.4vw,2.7rem)" id="pdpName">Product name</h1>
+          <div class="pdp__rating"><span class="stars">★★★★★</span><span>Dermatologist-selected</span></div>
           <div class="pdp__price" id="pdpPrice">৳0</div>
           <p class="lede" style="font-size:.98rem">A dermatologist-selected formula stocked and recommended by our clinic. Suitable for daily use as part of a routine prescribed by your consultant.</p>
 
@@ -116,10 +117,12 @@
               <button type="button" id="qtyUp" aria-label="Increase quantity">+</button>
             </div>
             <button class="btn" id="pdpAdd">Add to Cart</button>
+            <button class="btn btn--ghost" id="pdpBuy">Buy Now</button>
           </div>
           <div class="form-ok" id="pdpAdded" hidden>Added to your cart.</div>
 
           <div class="pdp__meta">
+            <div><b>SKU</b><span id="pdpSku">—</span></div>
             <div><b>Category</b><span id="pdpCat">—</span></div>
             <div><b>Availability</b><span>In stock</span></div>
             <div><b>Delivery</b><span>Inside Chattogram 1–2 days · nationwide 2–4 days</span></div>
@@ -128,14 +131,19 @@
         </div>
       </div>
 
-      <!-- Feedback 2 #10: clean, well-spaced Description / How to apply -->
+      <!-- Feedback 2 #10: clean, well-spaced Description / How to apply.
+           Tabbed (Dr. Leigh product-page reference) via the generic tab component. -->
+      <div class="tabs pdp__tabs" data-tabs="pdp" role="tablist">
+        <button class="tab" role="tab" data-tab="desc" aria-selected="true">Description</button>
+        <button class="tab" role="tab" data-tab="apply" aria-selected="false">How to Apply</button>
+      </div>
       <div class="pdp__panels">
-        <div class="pdp__panel">
+        <div class="panel pdp__panel" data-panel-for="pdp" data-panel="desc">
           <h3>Description</h3>
           <p>Formulated to support the skin barrier while treating your primary concern, this product is selected by our dermatology team and stocked because it performs in clinic as well as it does at home.</p>
           <p>It layers cleanly under sunscreen and makeup, absorbs without residue, and is suitable for sensitive skin when introduced gradually. Every product we sell is sourced through authorised channels — no counterfeits, no grey imports.</p>
         </div>
-        <div class="pdp__panel">
+        <div class="panel pdp__panel" data-panel-for="pdp" data-panel="apply" hidden>
           <h3>How to Apply</h3>
           <ol>
             <li>Cleanse with lukewarm water and pat the skin dry — do not rub.</li>

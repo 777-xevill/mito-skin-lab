@@ -95,6 +95,14 @@
   </section>
   <section class="section">
     <div class="wrap">
+
+      <!-- Products / Treatment prices switch -->
+      <div class="tabs shop-switch" data-tabs="shop" role="tablist">
+        <button class="tab" role="tab" data-tab="products" aria-selected="true">Products</button>
+        <button class="tab" role="tab" data-tab="treatments" aria-selected="false">Treatment Prices</button>
+      </div>
+
+      <div class="panel" data-panel-for="shop" data-panel="products">
       <div class="shop-layout">
 
         <!-- Left filter column. Feedback 4: hidden on mobile, opened by a button. -->
@@ -150,6 +158,23 @@
         </div>
 
       </div>
+      </div>
+
+      <!-- Treatment price list (client's Price List sheet).
+           Treatments route to booking, not the cart — they need a consultation. -->
+      <div class="panel" data-panel-for="shop" data-panel="treatments" hidden>
+        <div class="shop-toolbar">
+          <span class="shop-toolbar__count" id="txCount"></span>
+          <label class="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input type="search" id="txSearch" placeholder="Search treatments" aria-label="Search treatments">
+          </label>
+        </div>
+        <div class="tabs tx-cats" id="txCats" role="tablist"></div>
+        <div id="txList"></div>
+        <p class="form-note">Prices are per single session unless a note says otherwise. Treatments are booked after a consultation, and your consultant confirms the final plan and price.</p>
+      </div>
+
     </div>
   </section>
 

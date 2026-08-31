@@ -10,6 +10,21 @@
     ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
   const taka = (n) => '৳' + n.toLocaleString('en-US');
 
+  /* ---------------------------------------------------- image placeholders
+     Marks every picture slot so the client can see which photo goes where.
+     Replace the returned element with an <img> once the real asset arrives. */
+  const PH_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">' +
+    '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/>' +
+    '<path d="m21 15-5-5L5 21"/></svg>';
+
+  function ph(label, name, size, mod) {
+    return `<div class="ph${mod ? ' ' + mod : ''}">${PH_ICON}` +
+      `<span class="ph__label">${esc(label)}</span>` +
+      (name ? `<span class="ph__name">${esc(name)}</span>` : '') +
+      (size ? `<span class="ph__size">${esc(size)}</span>` : '') +
+      '</div>';
+  }
+
   /* ---------------------------------------------------------------- cart */
   const cart = {
     get() { try { return parseInt(localStorage.getItem('mito_cart') || '0', 10) || 0; } catch (e) { return 0; } },
@@ -63,16 +78,30 @@
 
   /* ============================================================ RENDERERS */
 
-  /* Departments — homepage cards */
+  /* Departments — numbered photo cards (Sirpi services-grid reference) */
   function renderDepartments(el) {
     if (!el || typeof DEPARTMENTS === 'undefined') return;
-    el.innerHTML = DEPARTMENTS.map(d => `
+    el.innerHTML = DEPARTMENTS.map((d, i) => `
       <a class="dept-card reveal" href="services.html#${d.id}">
-        <span class="dept-card__num">${d.n}</span>
-        <h3>${esc(d.name)}</h3>
-        <p>${esc(d.blurb)}</p>
-        <span class="dept-card__link">Explore</span>
+        <div class="dept-card__photo">
+          ${ph('Department Photo ' + (i + 1), d.name, '800 × 600')}
+          <span class="dept-card__num">${d.n}</span>
+        </div>
+        <div class="dept-card__body">
+          <h3>${esc(d.name)}</h3>
+          <p>${esc(d.blurb)}</p>
+          <span class="dept-card__link">Explore</span>
+        </div>
       </a>`).join('');
+  }
+
+  /* Working Hours panel — booking page (Sirpi appointment reference) */
+  function renderWorkingHours(el) {
+    if (!el || typeof WORKING_HOURS === 'undefined') return;
+    el.innerHTML = '<h4>Working Hours</h4>' + WORKING_HOURS.map(([day, hours]) => `
+      <div class="hours-row"${hours === 'Closed' ? ' data-closed' : ''}>
+        <b>${esc(day)}</b><span class="leader"></span><span>${esc(hours)}</span>
+      </div>`).join('');
   }
 
   /* Most popular services — homepage */
@@ -90,11 +119,10 @@
   function renderDoctors(el, limit) {
     if (!el || typeof DOCTORS === 'undefined') return;
     const list = limit ? DOCTORS.slice(0, limit) : DOCTORS;
-    el.innerHTML = list.map(d => {
-      const initials = d.name.replace(/^Dr\.\s*/, '').split(' ').map(w => w[0]).slice(0, 2).join('');
+    el.innerHTML = list.map((d, i) => {
       const photo = d.photo
         ? `<img src="${esc(d.photo)}" alt="${esc(d.name)}">`
-        : `<div class="doc-card__ph"><span>${esc(initials)}</span></div>`;
+        : ph('Doctor Photo ' + (i + 1), d.name, '600 × 700');
       return `
       <article class="doc-card reveal">
         <div class="doc-card__photo">${photo}</div>
@@ -183,12 +211,12 @@
 
     const state = { q: '', brand: [], cat: [], max: 12000, sort: 'featured' };
 
-    function card(p) {
+    function card(p, i) {
       return `
       <article class="prod-card reveal">
         <a class="prod-card__media" href="product.html?id=${encodeURIComponent(p.id)}">
           ${p.tag ? `<span class="prod-card__tag">${esc(p.tag)}</span>` : ''}
-          <div class="prod-card__ph">${esc(p.brand)}</div>
+          ${ph('Product Photo ' + (i + 1), p.name, '800 × 900')}
           <div class="prod-card__quick"><button class="btn btn--sm btn--block" data-add="${esc(p.id)}">Add to cart</button></div>
         </a>
         <p class="prod-card__brand">${esc(p.brand)}</p>
@@ -254,6 +282,60 @@
     apply();
   }
 
+  /* Treatment price list — shop page (client's Price List sheet).
+     Treatments are booked after consultation, so each row links to the
+     booking form rather than the cart. */
+  function initTreatments() {
+    const list = $('#txList');
+    if (!list || typeof TREATMENTS === 'undefined') return;
+
+    const state = { q: '', cat: '' };
+    const chips = $('#txCats');
+    if (chips) chips.innerHTML =
+      '<button class="tab" data-tx-cat="" aria-selected="true">All</button>' +
+      TREATMENTS.map(g => `<button class="tab" data-tx-cat="${esc(g.cat)}" aria-selected="false">${esc(g.cat)}</button>`).join('');
+
+    function apply() {
+      const groups = TREATMENTS
+        .filter(g => !state.cat || g.cat === state.cat)
+        .map(g => ({
+          cat: g.cat,
+          items: g.items.filter(([name]) => !state.q || (g.cat + ' ' + name).toLowerCase().includes(state.q))
+        }))
+        .filter(g => g.items.length);
+
+      list.innerHTML = groups.length ? groups.map(g => `
+        <section class="tx-group">
+          <h3 class="tx-group__head">${esc(g.cat)}</h3>
+          ${g.items.map(([name, price, note]) => `
+            <div class="tx-row">
+              <div class="tx-row__name">${esc(name)}${note ? `<span>${esc(note)}</span>` : ''}</div>
+              <span class="tx-row__leader"></span>
+              <div class="tx-row__price">${taka(price)}</div>
+              <a class="btn btn--ghost btn--sm tx-row__book" href="booking.html?service=${encodeURIComponent(g.cat + ' — ' + name)}">Book</a>
+            </div>`).join('')}
+        </section>`).join('')
+        : '<p class="lede">No treatments match that search.</p>';
+
+      const n = groups.reduce((s, g) => s + g.items.length, 0);
+      const c = $('#txCount');
+      if (c) c.textContent = `Showing ${n} treatment${n === 1 ? '' : 's'}`;
+    }
+
+    document.addEventListener('click', e => {
+      const chip = e.target.closest('[data-tx-cat]');
+      if (!chip) return;
+      state.cat = chip.dataset.txCat;
+      $$('[data-tx-cat]').forEach(b => b.setAttribute('aria-selected', String(b === chip)));
+      apply();
+    });
+
+    const search = $('#txSearch');
+    if (search) search.addEventListener('input', e => { state.q = e.target.value.toLowerCase().trim(); apply(); });
+
+    apply();
+  }
+
   /* Product detail page */
   function initProduct() {
     const root = $('#pdp');
@@ -264,9 +346,13 @@
     $('#pdpBrand').textContent = p.brand;
     $('#pdpName').textContent  = p.name;
     $('#pdpPrice').innerHTML   = (p.was ? `<s>${taka(p.was)}</s>` : '') + taka(p.price);
-    $('#pdpPh').textContent    = p.brand;
+    $('#pdpPh').innerHTML      = ph('Product Photo — Main', p.name, '1000 × 1000');
+    $$('#pdpThumbs div').forEach((t, i) => {
+      t.innerHTML = ph('Photo ' + (i + 2), '', '', 'ph--sm');
+    });
     $('#pdpCat').textContent   = p.cat;
     $('#pdpCrumb').textContent = p.name;
+    const sku = $('#pdpSku'); if (sku) sku.textContent = p.id.toUpperCase();
     document.title = p.name + ' — Mito Skin Lab';
 
     const qty = $('#pdpQty');
@@ -274,8 +360,17 @@
     $('#qtyDown').addEventListener('click', () => { qty.value = Math.max(1,  +qty.value - 1); });
     $('#pdpAdd').addEventListener('click',  () => {
       cart.add(+qty.value);
-      const n = $('#pdpAdded'); n.hidden = false;
+      const n = $('#pdpAdded');
+      n.textContent = 'Added to your cart.';
+      n.hidden = false;
       setTimeout(() => { n.hidden = true; }, 2600);
+    });
+    const buyBtn = $('#pdpBuy');
+    if (buyBtn) buyBtn.addEventListener('click', () => {
+      cart.add(+qty.value);
+      const n = $('#pdpAdded');
+      n.textContent = 'Added to your cart — message us on WhatsApp to complete your order.';
+      n.hidden = false;
     });
 
     $$('.pdp__thumbs div').forEach((t, i) => t.addEventListener('click', () => {
@@ -286,10 +381,10 @@
     /* related */
     const rel = $('#pdpRelated');
     if (rel) {
-      rel.innerHTML = PRODUCTS.filter(x => x.cat === p.cat && x.id !== p.id).slice(0, 4).map(x => `
+      rel.innerHTML = PRODUCTS.filter(x => x.cat === p.cat && x.id !== p.id).slice(0, 4).map((x, i) => `
         <article class="prod-card reveal">
           <a class="prod-card__media" href="product.html?id=${encodeURIComponent(x.id)}">
-            <div class="prod-card__ph">${esc(x.brand)}</div>
+            ${ph('Product Photo ' + (i + 1), x.name, '800 × 900')}
           </a>
           <p class="prod-card__brand">${esc(x.brand)}</p>
           <h4><a href="product.html?id=${encodeURIComponent(x.id)}">${esc(x.name)}</a></h4>
@@ -325,7 +420,14 @@
     const wantSvc = q.get('service'), wantDoc = q.get('doctor');
     if (wantSvc && typeof DEPARTMENTS !== 'undefined') {
       const d = DEPARTMENTS.find(x => x.groups.some(g => g.items.some(([n]) => n === wantSvc)));
-      if (d) { dept.value = d.id; dept.dispatchEvent(new Event('change')); svc.value = wantSvc; }
+      if (d) {
+        dept.value = d.id; dept.dispatchEvent(new Event('change')); svc.value = wantSvc;
+      } else {
+        /* Treatment-price-list links carry names that aren't in DEPARTMENTS —
+           carry the request through in the message instead of dropping it. */
+        const msg = $('#bkMsg');
+        if (msg && !msg.value) msg.value = `I would like to book: ${wantSvc}`;
+      }
     }
     if (wantDoc && doc) doc.value = wantDoc;
 
@@ -360,8 +462,10 @@
     renderPopular($('#popGrid'));
     renderDoctors($('#docGrid'), $('#docGrid') && $('#docGrid').dataset.limit ? +$('#docGrid').dataset.limit : 0);
     renderReviews($('#revGrid'), $('#revGrid') && $('#revGrid').dataset.limit ? +$('#revGrid').dataset.limit : 0);
+    renderWorkingHours($('[data-hours-table]'));
     renderServices($('#deptTabs'), $('#deptPanels'));
     initShop();
+    initTreatments();
     initProduct();
     initBooking();
     wireTabs();

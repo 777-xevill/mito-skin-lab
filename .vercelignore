@@ -1,0 +1,5 @@
+# Internal files — must not be published.
+# README.md carries client-facing notes (outstanding items, pricing sheet gaps,
+# the fact that the reviews are placeholders). build.js is the page generator.
+README.md
+build.js
