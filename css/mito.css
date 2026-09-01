@@ -726,6 +726,19 @@ select.select {
 .ph--sm svg { width: 15px; height: 15px; margin: 0; }
 .ph--sm .ph__label { font-size: .52rem; letter-spacing: .1em; }
 
+/* Generic stock photography standing in for real product shots — real
+   image, but flagged so it still reads as temporary. Sits on the opposite
+   corner from .prod-card__tag (Best Seller / Sale) so the two never collide. */
+.stock-photo { position: absolute; inset: 0; }
+.stock-photo img { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(.92); }
+.stock-photo__flag {
+  position: absolute; top: .8rem; right: .8rem; z-index: 3;
+  padding: .3rem .75rem; border-radius: var(--radius);
+  background: var(--premium); color: var(--chantilly);
+  font-size: .58rem; letter-spacing: .13em; text-transform: uppercase; font-weight: 600;
+}
+.stock-photo--sm .stock-photo__flag { padding: .2rem .5rem; font-size: .48rem; top: .5rem; right: .5rem; }
+
 /* hero: sits over the video area so the landing-page slot is obvious */
 .hero__ph {
   position: absolute; right: var(--gutter); top: 24%; z-index: 2;
