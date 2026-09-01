@@ -258,14 +258,6 @@ p  { margin: 0 0 1.1em; }
 .hero__checks { display: grid; grid-template-columns: repeat(2, auto); gap: .6rem 2.4rem; margin-bottom: 2.2rem; }
 .hero__check { display: flex; align-items: center; gap: .55rem; font-size: .86rem; color: rgba(255,255,255,.92); }
 .hero__check svg { width: 16px; height: 16px; color: var(--tea-rose); flex: none; }
-.hero__badge {
-  position: absolute; right: var(--gutter); bottom: clamp(28px, 5vw, 56px); z-index: 2;
-  display: flex; gap: 2.2rem; padding: 1.4rem 2rem;
-  background: rgba(252,249,246,.93); border-radius: 3px;
-}
-.hero__badge div { text-align: center; }
-.hero__badge b { display: block; font-family: var(--font-display); font-size: 1.7rem; color: var(--dusty-mauve); }
-.hero__badge span { font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-soft); }
 
 /* ---------- brand strip: CeraVe, Candela, Botox (Feedback 4) ---------- */
 .brands { border-block: 1px solid var(--hairline); background: var(--chantilly); }
@@ -653,7 +645,6 @@ select.select {
   .burger { display: grid; }
   .header__inner { grid-template-columns: auto 1fr; min-height: 68px; }
   .brand { justify-self: start; }
-  .hero__badge { display: none; }
 
   /* Feedback 4 — hide the full filter panel, open it from a button */
   .filter-open { display: inline-flex; }
