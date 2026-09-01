@@ -1,0 +1,8 @@
+# Raw video sources — heavy, never web-ready as-is, and the client keeps
+# dropping full originals into assets/video/. Only the encoded hero.mp4
+# (+ poster) actually belong in the repo; GitHub also hard-blocks any
+# single file over 100MB, so an accidental `git add -A` here would fail
+# the push outright instead of just bloating history.
+assets/video/*
+!assets/video/hero.mp4
+!assets/video/hero-poster.jpg

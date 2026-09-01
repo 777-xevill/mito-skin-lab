@@ -48,7 +48,7 @@ All site content lives in **`js/data.js`**. Change text there, not in the HTML.
 | 5 | Apply exact colour palette | Done — all 8 colours as CSS vars |
 | 6 | Shorten homepage, mobile-first | Done — 9 sections, no filler |
 | 7 | Homepage restructuring | |
-| | · Video in hero | Markup ready — **needs `assets/hero.mp4`** |
+| | · Video in hero | Done — `assets/video/hero.mp4`, re-encoded from the client's brand video (see *Open questions*) |
 | | · Categories to very bottom | Done — "Safe / Hygiene" block is last |
 | | · Departments higher up | Done — 3rd section |
 | | · Highlight popular services | Done |
@@ -75,11 +75,11 @@ All site content lives in **`js/data.js`**. Change text there, not in the HTML.
 |---|---|
 | Centered menu, exactly 5 items, Home–Doctors–Services–Shop–About Us | Done |
 | CeraVe, Candela, Botox in branding | Done — brand strip under hero |
-| Landing page video | Markup ready — **needs the file** |
+| Landing page video | Done — see *Open questions* for the re-encode notes |
 | Replace "Doctors Article" with full-page booking section | Done |
 | Doctors in client's serial order (Jahanara Akter first) | Done — order in `DOCTORS` array = order rendered |
 | About Us colour grading | Done — same palette tokens throughout |
-| Poster image compression | Will apply when the real image is supplied |
+| Poster image compression | Done — `hero-poster.jpg` is a frame grabbed from the video itself, 95KB |
 | Services hover dropdown → 4 departments | Done |
 | Laser under Skin, not its own department | Done |
 | Nested tabs per department | Done |
@@ -96,7 +96,7 @@ All site content lives in **`js/data.js`**. Change text there, not in the HTML.
 
 ## Still needed from the client
 
-1. **Hero video** → save as `assets/hero.mp4` (+ `assets/hero-poster.jpg`)
+1. ~~**Hero video**~~ — done, see *Open questions* below for what was changed from the source file
 2. **New logo** → the Feedback 2 replacement, and `Mito Logo Png-05.png` for the footer
 3. **Doctor photos** → drop into `assets/doctors/`, then set the `photo:` field in `js/data.js`
 4. **Real WhatsApp number, phone and full branch address** → the `CLINIC` object at the bottom of `js/data.js` has `XXXX` placeholders
@@ -122,6 +122,7 @@ All site content lives in **`js/data.js`**. Change text there, not in the HTML.
 2. **Feedback 4 contradicts itself on department count** — it says "organize the services under five main departments" but also "a dropdown showing the **4** main departments". The Departments tab and the live site both list 4. I built 4.
 3. **Font.** Feedback 2 says match the Dr. Leigh theme; the demo site doesn't expose its font stack publicly. Marcellus + Jost is a close match. One variable to change: `--font-display` / `--font-body`.
 4. **Checkout page** wasn't described beyond "remaining final adjustments" — tell me what those are and I'll build it.
+5. **Hero video was re-encoded from the source file** — the original `BRAND VIDEO.MP4` was 265MB, HEVC (H.265) codec, which most browsers other than Safari can't play at all in a `<video>` tag, and was never viable as a page asset regardless of codec (a 265MB autoplay download would stall the homepage for most visitors). I converted it to `assets/video/hero.mp4` — H.264, 1280×720, 30fps, muted, audio track stripped (the markup already had `muted` on it, so the audio was inaudible either way) — **5.8MB**, full original length (106s) kept intact, nothing trimmed. The original file is **not** in this repo (kept out via `.gitignore` — GitHub blocks anything over 100MB anyway) but is still sitting locally at `assets/video/BRAND VIDEO.MP4` on my machine if you need the untouched original for anything else (Instagram, a longer cut, etc.) — just ask and I'll hand it over separately.
 
 ## Porting to WordPress
 

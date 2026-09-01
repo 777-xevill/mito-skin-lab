@@ -94,22 +94,18 @@
 
 <main>
 
-  <!-- ============ HERO — video at the top (Feedback 2 & 4) ============ -->
+  <!-- ============ HERO — video at the top (Feedback 2 & 4) ============
+       Source: client's "BRAND VIDEO.MP4" (265MB, HEVC, 1920x1080@60fps).
+       Re-encoded to assets/video/hero.mp4 — H.264 720p30, muted, no audio
+       track (~5.8MB) — HEVC has no reliable <video> support outside Safari,
+       and 265MB was never viable as a page asset either way. Poster is a
+       frame grabbed from the video's own closing brand card (~98s in).
+       ============================================================== -->
   <section class="hero">
     <div class="hero__media">
-      <!-- Drop the client's clinic video at assets/hero.mp4 (from the Drive link)
-           and the still at assets/hero-poster.jpg — then delete .hero__ph below. -->
-      <video autoplay muted loop playsinline poster="assets/hero-poster.jpg">
-        <source src="assets/hero.mp4" type="video/mp4">
+      <video autoplay muted loop playsinline poster="assets/video/hero-poster.jpg">
+        <source src="assets/video/hero.mp4" type="video/mp4">
       </video>
-    </div>
-
-    <!-- Marks the landing-page video slot until the real file arrives -->
-    <div class="hero__ph">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
-      <span class="ph__label">Landing Page Video</span>
-      <span class="ph__name">The clinic video goes here — full-width background behind this text</span>
-      <span class="ph__size">1920 × 1080 · MP4</span>
     </div>
     <div class="wrap hero__inner">
       <p class="eyebrow">Chattogram's First Luxury Aesthetic Clinic</p>
