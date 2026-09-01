@@ -6,3 +6,10 @@
 assets/video/*
 !assets/video/hero.mp4
 !assets/video/hero-poster.jpg
+
+# Design source files — not renderable by a browser, no reason to publish
+# them alongside the exported web assets (mito-logo.png etc.) that sit
+# next to them in the same folder.
+assets/**/*.ai
+assets/**/*.psd
+assets/**/*.eps

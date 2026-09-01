@@ -17,7 +17,7 @@ const DOCTORS = [
     title2: 'Lifestyle Motivational Counselor',
     edu: 'Advanced Training in Aesthetic Systems (UNT Technology Co., Ltd., Beijing, China)',
     bio: 'Specialises in anti-aging botox, fillers, thread lifts, chemical peels, Hydrafacial, HIFU therapy, laser hair removal and slimming therapy.',
-    photo: ''
+    photo: 'assets/dr-profiles/jahanara-akter.jpg'
   },
   {
     name: 'Dr. Tasnim Khan',
@@ -25,7 +25,8 @@ const DOCTORS = [
     title2: 'Skin, Hair, Sex, Laser Specialist & Cosmetic Surgeon',
     edu: 'MBBS (DU), DDV (BSMMU), Diploma in Aesthetic Medicine (USA), Diploma in Cosmetic Gynaecology. Advanced Training in Aesthetic Dermatology (USA, Germany, Thailand, Malaysia, India). Associate Professor (Skin & VD), NIMCH.',
     bio: 'Performs Botox, filler, chemical peel, thread lift, CO2 laser, Q-Switched laser, HIFU, PRP, P-Shot, O-Shot and carbon laser.',
-    photo: ''
+    /* Dropped profile card says "Dr. Tasnim AKTER" (same MBBS/DDV/USA-diploma credentials) — confirm which surname is correct. */
+    photo: 'assets/dr-profiles/dr-tasnim-akter.jpg'
   },
   {
     name: 'Aysha Siddika',
@@ -33,7 +34,7 @@ const DOCTORS = [
     title2: 'Consultant — Diet & Nutrition',
     edu: 'B.Sc. & M.Sc. in Food & Nutrition (DU). Consultant, Easy Diet. Ex. Chief Dietitian, Square Hospital Ltd. Ex. Dietitian, Apollo Hospital. Lecturer, Square Nursing College.',
     bio: 'Nutritionist consultant and diet planner building personalised, clinically sound eating plans for lasting results.',
-    photo: ''
+    photo: 'assets/dr-profiles/aysha-siddika.jpg'
   },
   {
     /* Feedback 3 #1 — "Anti-Aging Expert" sits as the 2nd title, on the 2nd line. */
@@ -42,7 +43,7 @@ const DOCTORS = [
     title2: 'Anti-Aging Expert',
     edu: 'MBBS, PGT in Dermatology & Venereology (CMCH), Foundation Training in Medical Aesthetics (IIMARM), Advanced Dermatosurgery & Dermoscopy (IIMARM), Masters in Medical Aesthetics (IIMARM). HMO, Department of Dermatology and Venereology, Chittagong Medical College Hospital.',
     bio: 'Focuses on acne, spot and melasma treatment, Botox, filler, chemical peel, thread lift, CO2 laser, Q-Switched laser, HIFU, PRP and carbon laser.',
-    photo: ''
+    photo: 'assets/dr-profiles/dr-kamrun-nahar.jpg'
   },
   {
     name: 'Dr. Ilmoon Kabir',
@@ -50,7 +51,7 @@ const DOCTORS = [
     title2: 'Consultant of Plastic & Aesthetic Surgery',
     edu: 'MBBS, BCS (Health), MS (Plastic Surgery, DMC), MRCS (General Surgery, Edinburgh, UK). Dhaka Medical College & Hospital. BIO Plastic Surgery Clinic (Bangladesh Branch). City Hospital Ltd.',
     bio: 'Consultant plastic and aesthetic surgeon covering reconstructive and cosmetic surgical procedures.',
-    photo: ''
+    photo: 'assets/dr-profiles/dr-ilmoon-kabir.jpg'
   },
   {
     name: 'Dr. Ikratuz Jahan',
@@ -58,7 +59,7 @@ const DOCTORS = [
     title2: 'Specially Trained in Endodontics',
     edu: 'B.D.S (Chattogram International Dental College). Specially Trained in Endodontics.',
     bio: 'Key treatments include scaling & polishing, teeth whitening, root canal treatment, dental implants and core build-up.',
-    photo: ''
+    photo: 'assets/dr-profiles/dr-ikratuz-jahan.jpg'
   },
   {
     name: 'Dr. Shahinur Sultana',
@@ -66,7 +67,7 @@ const DOCTORS = [
     title2: '',
     edu: 'MBBS (CU), PGT (Dermatology & Venereology), Master Injector Programme (ILAMED, Thailand), CCD (BIRDEM), CMU (USG). HMO, Department of Dermatology and Venereology, Chittagong Medical College Hospital.',
     bio: 'Aesthetic dermatology and injectable treatments delivered to international master-injector standards.',
-    photo: ''
+    photo: 'assets/dr-profiles/dr-shahinur-sultana.jpg'
   }
 ];
 
