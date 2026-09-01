@@ -25,6 +25,17 @@
       '</div>';
   }
 
+  /* Generic stock photo for a product card, cycled by index. `alt` should
+     name the real product for accessibility even though the photo doesn't
+     match it — the visible "Stock photo" badge is what keeps that honest. */
+  function stockPhoto(i, alt, mod) {
+    if (typeof STOCK_PHOTOS === 'undefined' || !STOCK_PHOTOS.length) return ph('Product Photo', alt, '');
+    const src = STOCK_PHOTOS[i % STOCK_PHOTOS.length];
+    return `<div class="stock-photo${mod ? ' ' + mod : ''}">` +
+      `<img src="${esc(src)}" alt="${esc(alt)}" loading="lazy">` +
+      `<span class="stock-photo__flag">Stock photo</span></div>`;
+  }
+
   /* ---------------------------------------------------------------- cart */
   const cart = {
     get() { try { return parseInt(localStorage.getItem('mito_cart') || '0', 10) || 0; } catch (e) { return 0; } },
@@ -216,7 +227,7 @@
       <article class="prod-card reveal">
         <a class="prod-card__media" href="product.html?id=${encodeURIComponent(p.id)}">
           ${p.tag ? `<span class="prod-card__tag">${esc(p.tag)}</span>` : ''}
-          ${ph('Product Photo ' + (i + 1), p.name, '800 × 900')}
+          ${stockPhoto(i, p.name)}
           <div class="prod-card__quick"><button class="btn btn--sm btn--block" data-add="${esc(p.id)}">Add to cart</button></div>
         </a>
         <p class="prod-card__brand">${esc(p.brand)}</p>
@@ -346,9 +357,10 @@
     $('#pdpBrand').textContent = p.brand;
     $('#pdpName').textContent  = p.name;
     $('#pdpPrice').innerHTML   = (p.was ? `<s>${taka(p.was)}</s>` : '') + taka(p.price);
-    $('#pdpPh').innerHTML      = ph('Product Photo — Main', p.name, '1000 × 1000');
+    const pIndex = typeof PRODUCTS !== 'undefined' ? PRODUCTS.findIndex(x => x.id === p.id) : 0;
+    $('#pdpPh').innerHTML = stockPhoto(pIndex, p.name);
     $$('#pdpThumbs div').forEach((t, i) => {
-      t.innerHTML = ph('Photo ' + (i + 2), '', '', 'ph--sm');
+      t.innerHTML = stockPhoto(pIndex + i + 1, p.name, 'stock-photo--sm');
     });
     $('#pdpCat').textContent   = p.cat;
     $('#pdpCrumb').textContent = p.name;
@@ -384,7 +396,7 @@
       rel.innerHTML = PRODUCTS.filter(x => x.cat === p.cat && x.id !== p.id).slice(0, 4).map((x, i) => `
         <article class="prod-card reveal">
           <a class="prod-card__media" href="product.html?id=${encodeURIComponent(x.id)}">
-            ${ph('Product Photo ' + (i + 1), x.name, '800 × 900')}
+            ${stockPhoto(i + 4, x.name)}
           </a>
           <p class="prod-card__brand">${esc(x.brand)}</p>
           <h4><a href="product.html?id=${encodeURIComponent(x.id)}">${esc(x.name)}</a></h4>

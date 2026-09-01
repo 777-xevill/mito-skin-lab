@@ -682,6 +682,32 @@ const WORKING_HOURS = [
 ];
 
 /* --------------------------------------------------------------------------
+   STOCK PHOTOS — generic placeholder photography (not the clinic's real
+   product shots) used only on product cards, so the shop/home/product pages
+   don't sit empty while real photography is pending. Cycled by index, not
+   matched to any specific product's real brand — every card still carries a
+   "Stock photo" ribbon so nobody mistakes these for final assets.
+   Doctors, departments, the hero and the logo are NOT covered by this —
+   a generic bottle standing in for "a product" is harmless; standing in for
+   "Dr. Tasnim Khan" or "the Skin department" would be misleading, so those
+   stay as labelled placeholder boxes until the real photos arrive.
+   -------------------------------------------------------------------------- */
+/* stock-01, -03 and -04 are excluded on purpose: those three source mockups
+   have a "-38% / -13% / -12%" badge baked into the image pixels. Showing
+   that next to a product's real price (which may have no discount at all)
+   would read as a fake, unearned discount — a real accuracy problem, not
+   just visual clutter. The files are still on disk if a future crop makes
+   them usable; they are just not in the cycle. */
+const STOCK_PHOTOS = [
+  'assets/stock/stock-02.png',
+  'assets/stock/stock-05.png',
+  'assets/stock/stock-06.png',
+  'assets/stock/stock-07.png',
+  'assets/stock/stock-08.png',
+  'assets/stock/stock-09.png'
+];
+
+/* --------------------------------------------------------------------------
    Clinic details — used in the footer and booking form
    -------------------------------------------------------------------------- */
 const CLINIC = {
